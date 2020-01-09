@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+# node-todo app
+  node-todo:
+      build:
+          context: .
+      ports:
+        - "8080:8080"
+      container_name: todo-container
+      depends_on: 
+        - mongodb
+
+# mongodb
+  mongodb:
+      image: mongo:latest
+      container_name: mongodb
+      restart: always
+      environment:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: password
+          MONGO_INITDB_DATABASE: dbadmin
+      ports:
+          - 27017:27017
+      volumes:
+          - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+   
